@@ -1,0 +1,38 @@
+{
+  "name": "artNet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ben-marcantel/artNet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ben-marcantel/artNet/issues"
+  },
+  "homepage": "https://github.com/ben-marcantel/artNet#readme",
+  "dependencies": {
+    "angular": "^1.6.10",
+    "angular-route": "^1.6.10",
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "brain.js": "^1.2.1",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "grunt": "^1.0.2",
+    "lindenmayer": "^1.3.6",
+    "node-sass": "^4.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.2",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.37.7"
+  }
+}
