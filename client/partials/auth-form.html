@@ -1,0 +1,25 @@
+
+<section class="auth-form">
+    <h2>Login or Register</h2>
+    <h3 class="formError">{{errorMsg}}</h3>
+    <div>
+      Username:
+      <input type="text" autofocus="true" ng-model="account.username">
+    </div>
+    <div>
+      Email:
+      <input type="text" autofocus="true" ng-model="account.email">
+    </div>
+    <div>
+      Password:
+      <input type="password" ng-model="account.password">
+    </div>
+    <div>
+      Password Confirmation:
+      <input type="password" ng-model="account.passwordConf">
+    </div>
+    <div>
+      <button class="btn btn-info" ng-click="login()">Login</button>
+      <button class="btn btn-default" ng-click="register()">Register</button>
+    </div>
+  </section>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel= "styleesheet" href= "./css/main.css"/>
+    <title>Document</title>
+</head>
+<body ng-app= "ArtNet">
+   <h1>Welcome to ARTNET</h1>
+   <div ng-view></div>
+
+   <!-- //angular scripts -->
+   <script src="./angular/angular.min.js"></script>
+    <script src="./angular-route/angular-route.min.js"></script>
+    <script src="./app.js"></script>
+
+
+    <!-- //controllers -->
+    <script src ="./controllers/authCtrl.js"></script>
+
+    <!-- factories -->
+    <script src ="./factories/authFactory.js"></script>
+</body>
+</html>

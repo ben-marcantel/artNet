@@ -1,7 +1,7 @@
 "use strict";
 
 // This module will be executed in server.js.
-const bCrypt = require("bcrypt-nodejs");
+const bCrypt = require("bcrypt");
 const passport = require("passport");
 
 const { Strategy } = require("passport-local");
