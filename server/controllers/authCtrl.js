@@ -4,6 +4,7 @@ const passport = require("passport");
 
 
 module.exports.register = (req, res, next)=>{
+    console.log("its here",req);
     passport.authenticate("local-signup", (err, user, msgObj)=>{
         if (err){
             return next(err);
