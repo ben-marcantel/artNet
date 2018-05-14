@@ -6,11 +6,9 @@ angular.module("ArtNet").factory("AuthFactory",($q, $http, $rootScope)=>{
 
     return {
         createUser(userObj) {
-            console.log("so far so good",userObj);
             return $q((resolve, reject) => {
               $http.post("/register", userObj)
               .then(userData => {
-                console.log("new user added", userData);
                 currentUser = userData;
                 resolve(userData.data);
               }).catch(err => {
@@ -18,12 +16,20 @@ angular.module("ArtNet").factory("AuthFactory",($q, $http, $rootScope)=>{
               });
             });
           },
-
+          logOutUser(userObj){
+            return $q((resolve, reject)=>{
+                $http.post("/logout", userObj)
+                .then(user=>{
+                    currentUser = user.data;
+                    resolve(user.data);
+                })
+                .catch(err=>{
+                    reject(err);
+                });
+            });
+        },
 
         logInUser(userObj){
-            console.log("userObj", userObj);
-
-
             return $q((resolve, reject)=>{
                 $http.post("/login", userObj)
                 .then(user=>{
@@ -43,7 +49,6 @@ angular.module("ArtNet").factory("AuthFactory",($q, $http, $rootScope)=>{
         setUserStatus(){
             return $http.get("/status")
             .then(user=>{
-                console.log("user in set user status", user);
                 if (user){
                     currentUser  = user.data;
                 } else {
@@ -55,7 +60,6 @@ angular.module("ArtNet").factory("AuthFactory",($q, $http, $rootScope)=>{
             });
         },
         broadcastUserLogin(user){
-            console.log("calling broadcast", user);
             $rootScope.$broadcast("handle Broadcast",user);
         }
     };

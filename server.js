@@ -17,6 +17,12 @@ app.set("models", require("./server/models"));
 app.use(express.static(__dirname + "/client"));
 app.use("/angular", express.static(__dirname + "/node_modules/angular/"));
 app.use("/angular-route", express.static(__dirname + "/node_modules/angular-route/"));
+app.use("/lindenmayer", express.static(__dirname + "/node_modules/lindenmayer/"));
+app.use("/brain.js", express.static(__dirname + "/node_modules/brain.js/"));
+
+
+
+
 
 app.use(session({
     secret: "keyboard cat",

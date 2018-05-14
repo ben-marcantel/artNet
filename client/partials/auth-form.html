@@ -1,5 +1,5 @@
 
-<section class="auth-form">
+<section class="auth-form" ng-controller = "AuthCtrl">
     <h2>Login or Register</h2>
     <h3 class="formError">{{errorMsg}}</h3>
     <div>
@@ -19,7 +19,10 @@
       <input type="password" ng-model="account.passwordConf">
     </div>
     <div>
-      <button class="btn btn-info" ng-click="login()">Login</button>
-      <button class="btn btn-default" ng-click="register()">Register</button>
+      <button class="formBtn" ng-click="login()">Login</button>
+      <button class="formBtn" ng-click="logout()">Logout</button>
+      <button class="formBtn" ng-click="register()">Register</button>
     </div>
   </section>
+
+  

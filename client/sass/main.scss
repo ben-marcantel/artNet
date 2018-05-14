@@ -1,0 +1,63 @@
+body {
+    background-color: black;
+    color: aqua;
+    font-family: 'Orbitron', sans-serif;
+}
+
+
+#scroller{
+    animation-timing-function: linear;
+    animation-duration: 10s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes slidein {
+    from {
+      margin-left: 100%;
+      width: 300%; 
+    }
+ 
+    to {
+      margin-left: -40%;
+      width: -300%;
+    }
+  }
+  .formBtn{
+    border: 2px solid  aqua;
+    background-color: black;
+    color: aqua;
+    font-family: 'Orbitron', sans-serif;
+  }
+  .formBtn:hover {
+    background-color: aqua;
+    color: black;
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  input[type=text] {
+    border: 2px solid  aqua;
+    background-color: black;
+    color: aqua;
+}
+input[type=password] {
+  border: 2px solid  aqua;  
+  background-color: black;
+  color: aqua;
+}
+// input[type=range] {
+//   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+//   width: 5em; /* Specific width is required for Firefox. */
+//   background: transparent; /* Otherwise white in Chrome */
+// }
+// input[type=range]::-webkit-slider-thumb {
+//   -webkit-appearance: none;
+//   border: 1px solid aqua;
+//   height: 1em;
+//   width: 2em;
+//   border-radius: 3px;
+//   background: aqua;
+//   cursor: pointer;
+//   margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+//   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+// }

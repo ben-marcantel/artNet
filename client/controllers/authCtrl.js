@@ -12,16 +12,28 @@ angular.module("ArtNet").controller("AuthCtrl", function($scope, AuthFactory, $l
         .then(user=>{
             AuthFactory.broadcastUserLogin(user);
             //path to reroute after creating user
-            $location.path("/");
+            $location.path("/train");
         });
     };
-    $scope.logIn =()=>{
-        // console.log("scope account?",$scope.account);
-        AuthFactory.loginUser($scope.account).then((user)=>{
-            // console.log("logged in controller !!!", user);
+    $scope.login =()=>{
+        AuthFactory.logInUser($scope.account)
+        .then((user)=>{
+            AuthFactory.broadcastUserLogin(user);
+            //route to redirect to.
+            $location.path("/train");
+        });
+    };
+    $scope.logout= ()=>{
+        AuthFactory.logOutUser($scope.account)
+        .then((user)=>{
             AuthFactory.broadcastUserLogin(user);
             //route to redirect to.
             $location.path("/");
         });
+    };
+
+    $scope.goToTrain = ()=>{
+        $location.path("/train");
+        
     };
 });
