@@ -1,0 +1,36 @@
+<div ng-include src="'./partials/auth-form.html'"></div>
+
+<div>Welcome to the training Page</div>
+
+<div>For each image please select if you would like to see more of this</div>
+
+<button class="formBtn"ng-click="dislike()">kinda boring show me less</button>
+<button class="formBtn"ng-click="like()"> i like it show me more</button>
+<button class="formBtn"ng-click="reset()">neither show me a different one</button>
+<form ng-submit="submitData(formData)" >
+    <input type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
+
+<input type= "text"  ng-model="trainName" placeholder = "Enter Training Session Name">
+<button class="formBtn"ng-click="saveNewSession()">save session</button>
+
+<div>Your current session is </div>
+<div>
+    <div class="savedParameterView">
+            <ul class="parameterHeader"> Training Sets
+                <li ng-click="save()">  Save  </li>
+                <li ng-click="loadSesssion()">  Load  </li>
+                <li ng-click="exitSession()">  Exit  </li>
+            </ul>
+    </div>
+    <!-- <ul class= "setCollection">
+        <li class="setName"ng-repeat= "set in sets">
+            <div id ={{set.setId}} ng-click = "initSavedSet(param)">{{set.setName}}: Edit </div>
+            <div ng-click="deleteSet(set.setId)"> Delete</div>
+        </li>
+    </ul> -->
+</div>    
+<input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor"> 
+</form>
+
+<canvas id = "canvasTrain"></canvas>
+
