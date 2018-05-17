@@ -41,6 +41,7 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
                 .get("/training")
                 .then((data) => {
                     let trainDataArr = Object.values(data.data);
+                    console.log("we here",trainDataArr);
                     resolve(trainDataArr);
                 })
                 .catch((error) => {
@@ -105,6 +106,7 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
         let input = {};
         let output = {};
         let trainObject = {};
+        // return $q((resolve, reject) => {
         
         sets.forEach(set=>{
             output.like = set.like;
@@ -120,8 +122,15 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
             trainObject.output = output;
             
             trainDataArray.push(trainObject);
+            console.log(trainDataArray)
+        // }).then((data)=>{
+        //     resolve();
+        // })
+        // .catch((error) => {
+        //     reject(error);
+        // });
         });
-    };
+    }
 
     const oracle = ()=>{
          network = new brain.NeuralNetwork({
@@ -142,8 +151,8 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
             oracle();
             return getTrainData()
             .then((data)=>{            
-                formatData(data);
-                network.train(trainDataArray);
+                formatData(data)
+                    network.train(trainDataArray);
             })
             .then(()=>{
                 resolve();
