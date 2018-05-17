@@ -1,36 +1,58 @@
-<div ng-include src="'./partials/auth-form.html'"></div>
+<h1 class ="scroller">Welcome to the Training Page</h1>
 
-<div>Welcome to the training Page</div>
+<!-- <div ng-include src="'./partials/auth-form.html'"></div> -->
 
-<div>For each image please select if you would like to see more of this</div>
+<div class="prompt">{{prompt}}</div>
 
-<button class="formBtn"ng-click="dislike()">kinda boring show me less</button>
-<button class="formBtn"ng-click="like()"> i like it show me more</button>
-<button class="formBtn"ng-click="reset()">neither show me a different one</button>
 <form ng-submit="submitData(formData)" >
-    <input type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
-
-<input type= "text"  ng-model="trainName" placeholder = "Enter Training Session Name">
-<button class="formBtn"ng-click="saveNewSession()">save session</button>
-
-<div>Your current session is </div>
-<div>
-    <div class="savedParameterView">
-            <ul class="parameterHeader"> Training Sets
-                <li ng-click="save()">  Save  </li>
-                <li ng-click="loadSesssion()">  Load  </li>
-                <li ng-click="exitSession()">  Exit  </li>
+    <!-- // control -->
+    <ul class="trainList">
+        <li>
+            <ul class= "seshName">
+                <li> 
+                    <input type= "text"  ng-model="trainName" placeholder = "Enter Session Name">
+                </li>
+                <li>
+                    <button class="formBtn"ng-click="saveNewSession()">save session</button>
+                </li>    
             </ul>
-    </div>
-    <!-- <ul class= "setCollection">
-        <li class="setName"ng-repeat= "set in sets">
-            <div id ={{set.setId}} ng-click = "initSavedSet(param)">{{set.setName}}: Edit </div>
-            <div ng-click="deleteSet(set.setId)"> Delete</div>
+               
         </li>
-    </ul> -->
-</div>    
-<input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor"> 
+        <li>
+            <div>Your current session is {{sessionName}} </div>
+            <div class="trainListItem" ng-click="deleteSet()"> Delete</div>
+            <div class="trainListItem" ng-click="exitTraining()">  Exit  </div>
+            <div class="trainListItem" ng-click="goToResults()">Go To My Results</div>
+        </li>
+        <li>
+            <div>
+                <div ng-click="load()" class="parameterHeader"> Training Sets</div>
+                    <ul class= "setCollection">
+                        <li class="setName"ng-repeat= "set in sets">
+                            <div class="trainListItem" id ={{set.id}} ng-click="setCurrentId(set)">{{set.name}}</div>
+                        </li>
+                    </ul>
+                </div>   
+        </li>
+    </ul>
+           <!-- //image control -->
+    <div class= "controls">
+            zoom<input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
+            choose color<input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor"> 
+    </div> 
 </form>
 
-<canvas id = "canvasTrain"></canvas>
+
+<div class="controls">
+    <ul></ul>
+    <div>For each image please select if you would like to see more of this</div>
+    <button class="formBtn"ng-click="dislike()">kinda boring show me less</button>
+    <button class="formBtn"ng-click="like()"> i like it show me more</button>
+    <button class="formBtn"ng-click="reset()">neither show me a different one</button>
+</div>
+
+  <!-- <canvas id = "canvasTrain" width="1000" height="1000"></canvas> -->
+  
+
+
 

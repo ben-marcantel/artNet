@@ -1,1 +1,29 @@
-<div>results</div>
+<h1 class ="scroller">Welcome to the Results Page</h1>
+<div class= "results">
+    <ul class="trainList">
+        <li>
+        <div>Your current training set has {{length}} votes</div>
+        </li>
+        <li>
+        <div>Your like match percent is {{percentage}}%</div>
+        </li>
+    </ul>
+</div>
+    <ul class="trainList">
+        <li>
+            <div class="trainListItem" ng-click="toTrainPage()">Go To Training Page</div>
+
+        </li>
+        <li>
+            <div class="trainListItem" ng-click="testButton()">Test Reset</div>
+        </li>
+    </ul>
+<div class= "controls">
+        <input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">zoom
+        <input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor">choose color 
+    </div> 
+<!-- <canvas id = "canvasTrain1" width="1000" height="1000"></canvas> -->
+
+
+
+

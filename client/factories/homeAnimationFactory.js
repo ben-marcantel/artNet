@@ -2,11 +2,12 @@
 
 angular.module("ArtNet").factory("HomeAnimationFactory", function($window, $document, $timeout,$route, $interval) {
     
-    const canvas = document.getElementById('canvasHome');
-    const ctx = canvas.getContext("2d");
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext("2d");
+    
 
-    let LSystem;
-    let koch;
+    // let LSystem;
+    let onloadImage;
     let initNum;
     let counter=0;
     
@@ -22,7 +23,7 @@ angular.module("ArtNet").factory("HomeAnimationFactory", function($window, $docu
         ctx.rotate(Math.PI);
         // ctx.translate(canvas.width * -1.6, canvas.height / 30);    
         
-        koch = new LSystem({
+     onloadImage = new LSystem({
             axiom: 'X',
             productions: {'F': 'FF', 'X':'F[-X]--[X][-X]+FX'},
             finals: {
@@ -31,30 +32,23 @@ angular.module("ArtNet").factory("HomeAnimationFactory", function($window, $docu
               'F': () => {
                 ctx.beginPath();
                 ctx.moveTo(0,initNum);
-                ctx.lineTo(0, 25/(koch.iterations + 1));   
+                ctx.lineTo(0, 25/ (onloadImage.iterations + 1));   
                 ctx.strokeStyle = `rgb(${(initNum*10)+20},0,250)`;
                 ctx.lineWidth = 1/4;
                 ctx.stroke();      
-                ctx.translate(0, 25/(koch.iterations + 1));},
+                ctx.translate(0, 25/ (onloadImage.iterations + 1));},
               '[': ()=>{ ctx.save();},
               ']':()=>{ctx.restore();}
             
             }
         });
-        koch.iterate(5);  
-        koch.final();  
+     onloadImage.iterate(5);  
+     onloadImage.final();  
         
     };
   
     
-    // const growth = ()=>{
-    //     if (counter < 1){
-    //         counter += 1/2;
-    //     } else if (counter > 180){
-    //         counter-=1/2;   
-    //     }
-        
-    // };
+ 
 
 
 const scene = ()=>{
@@ -66,10 +60,20 @@ const animate = ()=>{
     canvas.width=600;
     randomNum();
     treeMaker();
-    $timeout(()=>{
-        scene();        
-    },250);
+    // $timeout(()=>{
+    //     scene();        
+    // },250);
 };
 
 	return {animate};
 });
+
+
+   // const growth = ()=>{
+    //     if (counter < 1){
+    //         counter += 1/2;
+    //     } else if (counter > 180){
+    //         counter-=1/2;   
+    //     }
+        
+    // };

@@ -3,12 +3,11 @@
 
 
 angular.module("ArtNet").factory("LsystemFactory", function($window, $document, $timeout,$route, $interval) {
-    const canvas = document.getElementById('canvasTrain');
-    const ctx = canvas.getContext("2d");
-    const zoom = document.getElementById("zoom");
-    const inputColor = document.getElementById("inputColor");
-    let koch;
+    
     // let LSystem;
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext("2d");
+    let koch;
      
     //AXIOM RANDOMIZATION
     let axiomString ='';
@@ -56,69 +55,63 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
 
 
     ////INITIALIZE VALUES
+    const iterateInit =()=>{
+        initNum = Math.floor((Math.random()*3)+1)+2; 
+        iterationValue = initNum/3;
+    };
     const leftAngleInit =()=>{
-        leftInitNum= Math.floor((Math.random()*180)+11); 
-        leftValue = leftInitNum/190;
-        // console.log("leftValue", leftValue)
+        leftInitNum= Math.floor((Math.random()*180)+1)+11; 
+        leftValue = leftInitNum/180;
     }; 
     
     const rightAngleInit =()=>{
-        rightInitNum= Math.floor(((Math.random()*180)+11));   
-        rightValue = rightInitNum/190;
-        // console.log("rightValue", rightValue); 
+        rightInitNum= Math.floor((Math.random()*180)+1)+11;   
+        rightValue = rightInitNum/180;
     }; 
     
     const axiomInit = ()=>{
         axiomInitNum = Math.floor(Math.random()*2)+1;
         axiomValue = axiomInitNum/2;
-        console.log("axiomValue", axiomInitNum);
     };
     
     const production1Init = ()=>{
         prodInitNum1 =  Math.floor(Math.random()*7)+1;
         production1Value = prodInitNum1/7;
-        // console.log("prod1", prodInitNum1);  
      };
     
     const production2Init = ()=>{
         prodInitNum2 =  Math.floor(Math.random()*6)+1;
         production2Value = prodInitNum2/6;
-        // console.log("prod2", production2Value,prodInitNum2);  
      };
     
     const dividendInit = ()=>{
-        dividend = Math.floor(Math.random()*90)+11;
-        dividendValue = dividend/100;
+        dividend = Math.floor((Math.random()*90)+1) +10;
+        dividendValue = dividend/90;
     };
     
     const moveXInit = ()=>{
         moveX = Math.floor(Math.random()*3);
         moveXValue = moveX/3;
-        // console.log("moveX", moveXValue);  
     };
     
     const moveYInit = ()=>{
         moveY = Math.floor(Math.random()*2);
         moveYValue = moveY/2;
-        // console.log("moveY", moveYValue);  
     };
     
     const drawLogicInit = ()=>{
         drawInitNum =  Math.floor(Math.random()*2)+1;
         drawLogicValue = drawInitNum/2; 
-        // console.log("drawLogic", drawLogicValue);  
     };
     
     const saveLogicInit = ()=>{
         saveInitNum =  Math.floor(Math.random()*3)+1;
         setSaveLogicValue = saveInitNum/3;
-        // console.log("saveLogic", setSaveLogicValue);  
     };
     
     const restoreLogicInit=()=>{
         restoreInitNum =  Math.floor(Math.random()*2)+1;
         setRestoreLogicValue = restoreInitNum/2;
-        // console.log("restoreLogic", setRestoreLogicValue);         
     };
     
     ///CONDITIONAL SETS
@@ -181,7 +174,7 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     
             } else if(prodInitNum1 === 7){
                 if (axiomString === 'X'){
-                    productionString ='XFF';  
+                    productionString ='F[-]F';  
                 } else productionString ='F-F++F-F';
             } 
         // }   
@@ -229,12 +222,11 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     };
     
     
-    
     const setDrawLogic = ()=>{
         // for(let i = 0;i<2;i++){
             if (drawInitNum=== 1){
                 ctx.beginPath();
-                ctx.moveTo(0,moveY);
+                ctx.moveTo(moveX,moveY);
                 ctx.lineTo(0, dividend/(koch.iterations + 1));
                 ctx.stroke();
                 ctx.strokeStyle= `${rgb}`;
@@ -275,6 +267,8 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     //////INITIALIZE VALUES   
     const setInitValues = ()=>{
         axiomInit(); 
+        production1Init();
+        production2Init();
         rightAngleInit();
         leftAngleInit(); 
         dividendInit();
@@ -283,8 +277,7 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         drawLogicInit();
         saveLogicInit();
         restoreLogicInit();
-        production1Init();
-        production2Init();
+        
     };
     
     
@@ -293,10 +286,7 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     const initLsystem = ()=>{
         koch = new LSystem({
             axiom: axiomMaker(),
-            
-            // productions: {'F': setProduction1(), 'X':setProduction2()},
             productions: {'F': setProduction1(), 'X':setProduction2()},
-            
             finals: {
             '+': () => {setConditional();},
             '-': () => {setConditional2();},
@@ -306,23 +296,12 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
             }
         });
     };
-    
-    
-    
-    const onLoadImage = ()=>{
-        setInitValues();
-        initLsystem();
-        koch.iterate(5);
-        koch.final();
-    };
-   
-    
-    
+     
     let defineInputObject = ()=>{
         inputObject = {
             axiomValue: axiomValue,
-            production1Value: production1Value,
-            production2Value: production2Value,
+            productionOneValue: production1Value,
+            productionTwoValue: production2Value,
             leftValue: leftValue,
             rightValue: rightValue,
             iterationValue: iterationValue,
@@ -336,6 +315,7 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     };
     
     let resetObject = ()=>{
+        
         axiomValue=null;
         production1Value=null;
         production2Value=null;
@@ -364,8 +344,8 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
 
     const zoomImage=(zoom)=>{
         if (zoom === 2){
-            canvas.height = 2000;
-            canvas.width = 2000;
+            canvas.height = 1000;
+            canvas.width = 1000;
             ctx.scale(3,3);    
             ctx.translate(-canvas.width/12, -canvas.height/24);            
             ctx.translate(canvas.width/4, canvas.height/8);
@@ -404,12 +384,19 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         
     }; 
 
-    const getColorValue = (color)=>{
+    const getColorValue = (color,zoom)=>{
+        canvas.height = 1000;
+        canvas.width = 1000;
         rgb = color;
-        zoomImage();          
+        zoomImage(zoom);          
     };
  
-    
+    const onLoadImage = ()=>{
+        setInitValues();
+        initLsystem();
+        koch.iterate(5);
+        koch.final();
+    };
     
     const hexToRgb =(hex)=> {
         let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -422,19 +409,13 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
 
     const dislike = ()=>{
         defineInputObject(); 
-        outputObject = {
-            like:0
-        };
-        trainObject = {input:inputObject, output: outputObject};        
+        trainObject = {inputObject};        
         resetImage();
     };
 
     const like = ()=>{
         defineInputObject(); 
-        outputObject = {
-            like:1
-        };
-        trainObject = {input:inputObject, output: outputObject};
+        trainObject = {inputObject};
         resetImage();
    };
     
@@ -444,7 +425,28 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         return trainObject;
     };
 
+    const defineObjectToTest=()=>{
+        defineInputObject();
+        trainObject = {inputObject};
+    };
 
-    return{onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue };
+  
+
+    const drawResult = ()=>{
+        canvas.height = 1000;
+        canvas.width = 1000;
+        ctx.translate(canvas.width / 2, canvas.height / 4);
+        initLsystem();
+        koch.iterate(5);
+        koch.final();
+    };
+       
+    const resetCanvasOnLoad = ()=>{
+        canvas.height = 1000;
+        canvas.width = 1000;
+        ctx.translate(canvas.width / 2, canvas.height / 4);
+    };
+
+    return{ onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue, drawResult,setInitValues, defineObjectToTest, resetObject,resetCanvasOnLoad };
 
 });
