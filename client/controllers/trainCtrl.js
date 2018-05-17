@@ -4,6 +4,7 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         let currentSessionId;
         let currentUser;
         let name;
+        let justSaved;
   // if (currentUserId === null){
   //   $location.path("/");
   // } else 
@@ -46,7 +47,8 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
       
         $scope.colorSet =()=>{
             let colorValue= $scope.colorAmt;
-            let zoomAmt= $scope.zoomAmt;            
+            let zoomAmt= $scope.zoomAmt;        
+            console.log(colorValue);    
             LsystemFactory.getColorValue(colorValue,zoomAmt);
         };
 
@@ -84,6 +86,8 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
             NeuralNetFactory.getTrainSessions()
             .then((sessions) => {
                 $scope.sets = sessions; 
+                justSaved = sessions.length;
+                console.log("on load array",justSaved)
                 if (!$scope.sets){
                 createSessionPrompt();
                 }
@@ -101,7 +105,6 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
           };
         
         $scope.deleteSet = ()=>{
-            console.log(currentSessionId);
             if (!currentSessionId){
                 $scope.prompt= "!You must make choose a session  to delete!";   
             } else 
@@ -128,13 +131,23 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         $scope.saveNewSession=()=>{
             name =  $scope.trainName;
             if(!name){
-                console.log(name);
                 $scope.prompt = "Please enter a name for your session to save it";
             } else if(name){
                 $scope.prompt = "!New Session Saved!";
-                NeuralNetFactory.createTrainSession(name);
-                currentSessionId=null;
-                loadTrainingSessions();
+                NeuralNetFactory.createTrainSession(name)
+                .then(()=>{
+                    currentSessionId=null;
+                    loadTrainingSessions();
+                    $timeout(()=>{
+                        
+                        console.log($scope.sets[+justSaved],$scope.sets[5],+justSaved)    
+                    },500);
+                    
+                });
+               
+                
+                
+
                 
             }               
         };

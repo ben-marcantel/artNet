@@ -124,18 +124,15 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     };
     
     const axiomMaker = ()=>{    
-        // for(let i = 0;i<2;i++){
             if (axiomInitNum === 1){
                 axiomString = 'F';
             } else if(axiomInitNum === 2)   {
                 axiomString = 'X';
             } 
-        // }
         return axiomString;
     };
     
     const setProduction1 = ()=>{
-        // for(let i = 0;i<2;i++){
             if (prodInitNum1 === 1){
     
                 if (axiomString === 'X'){
@@ -177,12 +174,10 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
                     productionString ='F[-]F';  
                 } else productionString ='F-F++F-F';
             } 
-        // }   
         return productionString;
     };
     
     const setProduction2 = ()=>{
-        // for(let i = 0;i<1;i++){
             if (prodInitNum2 === 1){
                 production2String = 'F-F++F-F';
             } else if(prodInitNum2 === 2){
@@ -198,7 +193,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
             } else if(prodInitNum2 === 6){
                 production2String ='F--[-[X]----X]-F[+FX]-X';
             } 
-        // }    
         return production2String;
     };
     
@@ -223,7 +217,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     
     
     const setDrawLogic = ()=>{
-        // for(let i = 0;i<2;i++){
             if (drawInitNum=== 1){
                 ctx.beginPath();
                 ctx.moveTo(moveX,moveY);
@@ -239,29 +232,24 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
                 ctx.strokeStyle= `${rgb}`;
                 ctx.translate(0, dividend/(koch.iterations + 1));
             }
-        // }
     };
     
     const setSaveLogic = ()=>{
-        // for(let i = 0;i<3;i++){
             if (saveInitNum=== 1){
                 ctx.save();  
             } else if(saveInitNum=== 2){
                 ctx.save();
                 ctx.strokeStyle= `${rgb}`;   
             } else if(saveInitNum === 3){} 
-        // }   
     };
     
     const setRestoreLogic = ()=>{
-        // for(let i = 0;i<2;i++){
             if (restoreInitNum === 1){
                 ctx.restore();
             } else if(restoreInitNum === 2){
                 ctx.restore();
                 ctx.strokeStyle= `${rgb}`;   
             } 
-        // }   
     };
     
     //////INITIALIZE VALUES   
@@ -388,6 +376,7 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         canvas.height = 1000;
         canvas.width = 1000;
         rgb = color;
+        console.log(hexToRgb(rgb))
         zoomImage(zoom);          
     };
  
@@ -406,6 +395,42 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
             b: parseInt(result[3], 16)
         } : null;
     };
+
+    // toHSL: 
+    let toHSL= (hex)=> {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    
+        var r = parseInt(result[1], 16);
+        var g = parseInt(result[2], 16);
+        var b = parseInt(result[3], 16);
+    
+        r /= 255, g /= 255, b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
+    
+        if(max == min){
+            h = s = 0; // achromatic
+        } else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch(max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+    
+        s = s*100;
+        s = Math.round(s);
+        l = l*100;
+        l = Math.round(l);
+        h = Math.round(360*h);
+    
+        var colorInHSL = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+    }
+
+
 
     const dislike = ()=>{
         defineInputObject(); 
