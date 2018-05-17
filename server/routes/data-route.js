@@ -5,8 +5,9 @@ const router = Router();
 
 const{getDataSet, createDataSet}= require("../controllers/dataCtrl.js");
 
-router.get("/data", getDataSet);
+router.get("/data/:id", getDataSet);
 router.post("/data", createDataSet);
+
 
 
 module.exports = router;

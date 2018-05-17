@@ -1,77 +1,149 @@
 "use strict";
 
-angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFactory, NeuralNetFactory, LsystemFactory, $location){
-
-  let currentUser;
+angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFactory, $timeout, NeuralNetFactory, LsystemFactory, $location){
+        let currentSessionId;
+        let currentUser;
+        let name;
   // if (currentUserId === null){
   //   $location.path("/");
   // } else 
+  
+        const onloadImageLaunch=()=>{
+        LsystemFactory.onLoadImage();        
+        };
+////////PROMPT MESSAGES
+        const createSessionPrompt = ()=>{
+            $scope.prompt = "Please create a new session";
+            //set styling of input box to pink for alert
+        };
 
-    const initColor =()=>{
-      $scope.colorAmt="#00FFFF";
-      let colorValue= $scope.colorAmt;
-      LsystemFactory.getColorValue(colorValue);
-    };
+        const createSessionPromptLoad = ()=>{
+            $scope.prompt = "Please load a or create a session";
+            //set styling of input box to pink for alert
+        };
+
+        const createSessionPromptOk = ()=>{
+          $scope.prompt = "";
+          //set styling of input box to pink for alert
+        };
+        const createSessionPromptSaved = ()=>{
+          $scope.prompt = " *!DATA SAVED!* ";
+          //set styling of input box to pink for alert
+        };
+
+////////IMAGE CONTROLS
+
+        const initColor =()=>{
+            $scope.colorAmt="#00FFFF";
+            let colorValue= $scope.colorAmt;
+            LsystemFactory.getColorValue(colorValue);
+        };
+
+        $scope.zoom = ()=>{
+            let zoomAmt= $scope.zoomAmt;
+            LsystemFactory.zoomImage(zoomAmt);
+        };
+      
+        $scope.colorSet =()=>{
+            let colorValue= $scope.colorAmt;
+            let zoomAmt= $scope.zoomAmt;            
+            LsystemFactory.getColorValue(colorValue,zoomAmt);
+        };
+
+        $scope.reset= ()=>{
+            let zoomAmt= 0;
+            $scope.zoomAmt = 0;
+            LsystemFactory.resetImage();    
+            LsystemFactory.zoomImage(zoomAmt);
+        };      
+
+////////DATA CONTROLS     
 
         $scope.dislike=()=>{
-          LsystemFactory.dislike();
-          let dislikeData = LsystemFactory.sendTrainObject();
-          console.log(dislikeData);
-          NeuralNetFactory.sendDislikeData(dislikeData);  
+            if (!currentSessionId){
+                createSessionPromptLoad();   
+            } else 
+                LsystemFactory.dislike();
+                let dislikeData = LsystemFactory.sendTrainObject();
+                NeuralNetFactory.sendDislikeData(dislikeData,currentSessionId);  
+                createSessionPromptSaved();
         };
 
         $scope.like=()=>{
-          LsystemFactory.like();
-          let likeData = LsystemFactory.sendTrainObject();
-          console.log(likeData);
-          NeuralNetFactory.sendLikeData(likeData);
+            if (!currentSessionId){
+                return createSessionPromptLoad();        
+            } else 
+                LsystemFactory.like();
+                let likeData = LsystemFactory.sendTrainObject();
+                NeuralNetFactory.sendLikeData(likeData,currentSessionId);
+                createSessionPromptSaved();
         };
 
-      $scope.zoom = ()=>{
-          let zoomAmt= $scope.zoomAmt;
-          LsystemFactory.zoomImage(zoomAmt);
-      };
-      
-      $scope.colorSet =()=>{
-          let colorValue= $scope.colorAmt;
-          LsystemFactory.getColorValue(colorValue);
-      };
+////////SESSION CONTROLS
+        const loadTrainingSessions = ()=>{
+            NeuralNetFactory.getTrainSessions()
+            .then((sessions) => {
+                $scope.sets = sessions; 
+                if (!$scope.sets){
+                createSessionPrompt();
+                }
+            })
+            .catch((error) => {
+                console.log("You messed up bruh", error);
+            });
+        };
 
-      $scope.reset= ()=>{
-        let zoomAmt= 0;
-        LsystemFactory.resetImage();    
-        LsystemFactory.zoomImage(zoomAmt);
-      };      
+        $scope.goToResults = ()=>{
+          if (!currentSessionId){
+              return createSessionPromptLoad();   
+          } else 
+              $location.url(`/results`); 
+          };
+        
+        $scope.deleteSet = ()=>{
+            console.log(currentSessionId);
+            if (!currentSessionId){
+                $scope.prompt= "!You must make choose a session  to delete!";   
+            } else 
+            NeuralNetFactory.deleteTrainSession(currentSessionId)
+            .then(()=>{
+                $scope.prompt= "!Session Deleted!";
+                $scope.sessionName=null;
+                currentSessionId=null;                
+                loadTrainingSessions();
+            });
+        };
 
-      $scope.loadTrainingSessions = ()=>{
-        NeuralNetFactory.getTrainSessions()
-        .then((sessions) => {
-            $scope.sets = sessions; 
-        })
-        .catch((error) => {
-            console.log("You messed up bruh", error);
-        });
-    };
-    $scope.saveNewSession=()=>{
-      let name =  $scope.trainName;
-      NeuralNetFactory.createTrainSession(name);
-    };
+        $scope.setCurrentId=(sessionData)=>{
+            currentSessionId= sessionData.id;
+            $scope.sessionName= sessionData.name;
+            createSessionPromptOk();
+            NeuralNetFactory.setTrainSetId(currentSessionId); 
+        };
 
-
-    $scope.deleteSet = (sessionId)=>{
-        NeuralNetFactory.deleteTrainSession(sessionId)
-        .then(()=>{
-            $scope.loadTrainingSessions();
-        });
-    };
-
-    $scope.exitTraining = ()=>{
-        $route.reload("/train");
-    };
+        $scope.exitTraining = ()=>{
+            $route.reload("/train");
+        };
    
+        $scope.saveNewSession=()=>{
+            name =  $scope.trainName;
+            if(!name){
+                console.log(name);
+                $scope.prompt = "Please enter a name for your session to save it";
+            } else if(name){
+                $scope.prompt = "!New Session Saved!";
+                NeuralNetFactory.createTrainSession(name);
+                currentSessionId=null;
+                loadTrainingSessions();
+                
+            }               
+        };
 
-    AuthFactory.getCurrentUser();
-    console.log("hey",currentUser);
-    initColor();
-    LsystemFactory.onLoadImage();
+      
+   
+////////ON LOAD FUNCTIONS 
+            LsystemFactory.resetCanvasOnLoad();
+            initColor();
+            loadTrainingSessions();
+            onloadImageLaunch();
 });
