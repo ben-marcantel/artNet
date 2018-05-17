@@ -1,4 +1,4 @@
-<h1 class ="scroller">Welcome to the Training Page</h1>
+<h1 class ="scroller">* Welcome to the Training Page * </h1>
 
 <!-- <div ng-include src="'./partials/auth-form.html'"></div> -->
 
@@ -37,17 +37,17 @@
     </ul>
            <!-- //image control -->
     <div class= "controls">
-            zoom<input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
-            choose color<input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor"> 
+            zoom   <input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
+            choose color  <input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor"> </li>
     </div> 
 </form>
 
 
 <div class="controls">
     <ul></ul>
-    <div>For each image please select if you would like to see more of this</div>
-    <button class="formBtn"ng-click="dislike()">kinda boring show me less</button>
-    <button class="formBtn"ng-click="like()"> i like it show me more</button>
+    <div>For each image please select the choice that matches your category</div>
+    <button class="formBtn"ng-click="dislike()">this doesnt fit my category</button>
+    <button class="formBtn"ng-click="like()">this fits my category</button>
     <button class="formBtn"ng-click="reset()">neither show me a different one</button>
 </div>
 

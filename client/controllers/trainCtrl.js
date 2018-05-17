@@ -5,6 +5,8 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         let currentUser;
         let name;
         let justSaved;
+        let sessionArray;
+        let currentSessionIdName;
   // if (currentUserId === null){
   //   $location.path("/");
   // } else 
@@ -82,12 +84,16 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         };
 
 ////////SESSION CONTROLS
+        const forSaveScope =(sessions)=>{
+            $scope.sets = sessions; 
+            sessionArray= sessions;
+            justSaved = sessions.length-1;
+        } 
+
         const loadTrainingSessions = ()=>{
-            NeuralNetFactory.getTrainSessions()
+             NeuralNetFactory.getTrainSessions()
             .then((sessions) => {
-                $scope.sets = sessions; 
-                justSaved = sessions.length;
-                console.log("on load array",justSaved)
+                forSaveScope(sessions)                                
                 if (!$scope.sets){
                 createSessionPrompt();
                 }
@@ -139,9 +145,10 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
                     currentSessionId=null;
                     loadTrainingSessions();
                     $timeout(()=>{
+                        $scope.sessionName =sessionArray[+justSaved].name;
+                        currentSessionId =sessionArray[+justSaved];
                         
-                        console.log($scope.sets[+justSaved],$scope.sets[5],+justSaved)    
-                    },500);
+                    },100);
                     
                 });
                
