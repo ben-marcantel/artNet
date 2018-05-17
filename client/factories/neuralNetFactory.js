@@ -20,16 +20,11 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
     };
 
     const getTrainData =()=>{
-        console.log("1",trainedSetDataArray.length);
-        console.log("2",trainedSetDataArray);
-        // resetTrainSessionsArray()
         return $q((resolve, reject) => {
             $http
                 .get(`/data/${sessionId}`)
                 .then((data) => {
                     trainedSetDataArray = Object.values(data.data);
-                    console.log("1",trainedSetDataArray.length);
-                    console.log("2",trainedSetDataArray);
                     resolve(trainedSetDataArray);
                 })
                 .catch((error) => {
@@ -94,7 +89,6 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
         trainObject.inputObject.like = 0;
         trainObject.inputObject.dislike = 1;
         trainObject.inputObject.data_set_id = currentSessionId;
-        console.log("in Like factory",trainObject);        
         return $q((resolve, reject) => {
             $http.post("/data", trainObject)
             .then(data => {
