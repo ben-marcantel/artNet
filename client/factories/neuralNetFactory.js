@@ -2,8 +2,7 @@
 
 
 angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, $document, $timeout,$route, $interval) {
-    // let lineArray =[];
-    // let userId;
+    
     let sessionId;
     let network;
     let trainDataArray=[];
@@ -41,7 +40,6 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
                 .get("/training")
                 .then((data) => {
                     let trainDataArr = Object.values(data.data);
-                    console.log("we here",trainDataArr);
                     resolve(trainDataArr);
                 })
                 .catch((error) => {
@@ -123,7 +121,7 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
             trainDataArray.push(trainObject);
 
         });
-    }
+    };
 
     const oracle = ()=>{
         network = new brain.NeuralNetwork({
@@ -144,7 +142,7 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
             oracle();
             return getTrainData()
             .then((data)=>{            
-                formatData(data)
+                formatData(data);
                 network.train(trainDataArray);
             })
             .then(()=>{
@@ -159,16 +157,14 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
     const resetTally = ()=>{
         likeTallyArray.length = 0; 
         dislikeTallyArray.length = 0;   
-    }
+    };
 
     const votes = (id)=>{
         resetTally();
         let result ={};
         getTrainData(id)
         .then(data=>{
-            console.log(data);
             data.forEach(element => { 
-                console.log(element);
                 if(element.like === 1){
                     likeTallyArray.push(element);
                     result.yes = likeTallyArray.length;  
@@ -179,14 +175,15 @@ angular.module("ArtNet").factory("NeuralNetFactory", function($q,$http,$window, 
                     result.yes = likeTallyArray.length;                      
                     result.no = dislikeTallyArray.length;   
                 }
-            })
+            });
         });
-        return result 
+        return result ;
     };
 
     const getArrayLength = ()=>{
         return trainDataArray.length;
     };    
+
     const resetArrayLength = ()=>{
          trainDataArray.length = 0;
     };

@@ -31,9 +31,9 @@ angular.module("ArtNet").factory("HomeAnimationFactory", function($window, $docu
               '-': () => {  ctx.rotate((Math.PI/180) * -counter); },
               'F': () => {
                 ctx.beginPath();
-                ctx.moveTo(0,0);
+                ctx.moveTo(0,initNum);
                 ctx.lineTo(0, counter/ (onloadImage.iterations + 1));   
-                ctx.strokeStyle = `rgb(${counter+75},0,250)`;
+                ctx.strokeStyle = `rgb(${counter+75},255,255)`;
                 
                 ctx.lineWidth = 1/4;
                 ctx.stroke();      
@@ -48,17 +48,16 @@ angular.module("ArtNet").factory("HomeAnimationFactory", function($window, $docu
     };
 
     let stop =()=>{
-        time =0
-    }
+        time =0;
+    };
 
     const growth = (data)=>{
         if (data < 180){
-            console.log(data);
            return counter += 1/10;
         } else if (data >= 180){
-            return counter = 0;   
-        } 
-    }
+             counter = 0;   
+        }
+    };
 
     const scene = ()=>{
         animate();
@@ -80,8 +79,8 @@ angular.module("ArtNet").factory("HomeAnimationFactory", function($window, $docu
     };
 
     const endAnimate= ()=>{
-     $timeout.cancel(time);
-    }
+        $timeout.cancel(time);
+    };
 
 	return {animate,endAnimate};
 });

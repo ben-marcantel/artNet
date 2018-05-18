@@ -8,6 +8,8 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext("2d");
     let koch;
+    let time;
+    let counter=0;    
      
     //AXIOM RANDOMIZATION
     let axiomString ='';
@@ -401,30 +403,59 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         ctx.translate(canvas.width / 2, canvas.height / 4);
     };
 
-    const scene = ()=>{
-        animate();
-    };
+////ANIMATION
+const animateLsystem = ()=>{
+    koch = new LSystem({
+        axiom: axiomMaker(),
+        productions: {'F': setProduction1(), 'X':setProduction2()},
+        finals: {
+        // '+': () => {setConditional();},
+        // '-': () => {setConditional2();},
+        '+': () => {  ctx.rotate((Math.PI/180) * counter);},
+          '-': () => {  ctx.rotate((Math.PI/180) * -counter);},
+        'F': () => {setDrawLogic();},
+        '[': () => {setSaveLogic();},
+        ']': () => {setRestoreLogic();}
+        }
+    });
+};
 
-    let time;
-    
-    const animate = ()=>{ 
-        growth(counter);
-        canvas.height=1000;
-        canvas.width=1000;
-        randomNum();
-        treeMaker();
-        time = 
-            $timeout(()=>{
+const growth = (data)=>{
+    if (data < 180){
+        console.log(data);
+       return counter += 1/10;
+    } else if (data >= 180){
+         counter = 0;   
+    }
+};
+
+const scene = ()=>{
+    animateIt();
+};
+
+const animateIt = ()=>{ 
+    growth(counter);
+    canvas.height=1000;
+    canvas.width=1000;
+    animateLsystem();
+    time = $timeout(()=>{
                 scene();        
             },80);
-        
-    };
+    
+};
 
-    const endAnimate= ()=>{
-     $timeout.cancel(time);
-    }
+const endAnimate= ()=>{
+    $timeout.cancel(time);
+};
 
-	return {animate,endAnimate};
-    return{ onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue, drawResult,setInitValues, defineObjectToTest, resetObject,resetCanvasOnLoad };
+const animateResult = ()=>{
+    canvas.height = 1000;
+    canvas.width = 1000;
+    ctx.translate(canvas.width / 2, canvas.height / 4);
+    animateIt();
+    koch.iterate(5);
+    koch.final();
+};
+    return{ onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue, drawResult,setInitValues, defineObjectToTest, resetObject,resetCanvasOnLoad,animateResult,endAnimate };
 
 });

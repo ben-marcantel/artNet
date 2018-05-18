@@ -3,7 +3,7 @@
 angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFactory, NeuralNetFactory, LsystemFactory,$location, $timeout){
       let chanceOfLike;
       let testObjData;
-      let imageRoll
+      let imageRoll;
       let counter=0;
       
 
@@ -13,9 +13,7 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
             LsystemFactory.setInitValues();
             LsystemFactory.defineObjectToTest();
             testObjData = LsystemFactory.sendTrainObject();
-            // $timeout(()=>{
             showIt();
-          // },100); 
       };
 
       $scope.filter = (amt)=>{
@@ -26,15 +24,20 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
       let showIt = ()=> {
         let present;
             imageRoll = NeuralNetFactory.fate(testObjData);
-            present = Math.floor(imageRoll.like*10000)
+            present = Math.floor(imageRoll.like*10000);
             $scope.percentage= present/100;
               $timeout(()=>{
               if (+imageRoll.like*100 > +chanceOfLike){
-                LsystemFactory.drawResult();
+                // LsystemFactory.drawResult();
+                LsystemFactory.animateResult();
+                
+                $scope.message="";
+                
               } else if(+imageRoll.like*100 < +chanceOfLike){                 
                   resetItAll(); 
                   counter+=1;
-                $scope.message=`Im trying to find your image, this is search ${counter}`
+                  LsystemFactory.endAnimate();
+                $scope.message=`Im trying to find your image, this is search ${counter}`;
               }
           },100);   
         };
