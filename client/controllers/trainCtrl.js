@@ -52,7 +52,6 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         $scope.colorSet =()=>{
             let colorValue= $scope.colorAmt;
             let zoomAmt= $scope.zoomAmt;        
-            console.log(colorValue);    
             LsystemFactory.getColorValue(colorValue,zoomAmt);
         };
 
@@ -70,7 +69,7 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
             $scope.yes = voteTally.yes;
             $scope.no = voteTally.no;
             },100); 
-        }   
+        };   
 
         $scope.dislike=()=>{
             if (!currentSessionId){
@@ -80,7 +79,7 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
                 let dislikeData = LsystemFactory.sendTrainObject();
                 NeuralNetFactory.sendDislikeData(dislikeData,currentSessionId);  
                 createSessionPromptSaved();
-                updateYesNo()
+                updateYesNo();
         };
 
         $scope.like=()=>{
@@ -91,7 +90,7 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
                 let likeData = LsystemFactory.sendTrainObject();
                 NeuralNetFactory.sendLikeData(likeData,currentSessionId);
                 createSessionPromptSaved();
-                updateYesNo()
+                updateYesNo();
         };
 
 ////////SESSION CONTROLS
@@ -100,12 +99,12 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
             $scope.sets = sessions; 
             sessionArray= sessions;
             justSaved = sessions.length-1;
-        } 
+        }; 
 
         const loadTrainingSessions = ()=>{
              NeuralNetFactory.getTrainSessions()
             .then((sessions) => {
-                loadSavedSession(sessions)                                
+                loadSavedSession(sessions);                                
                 if (!$scope.sets){
                 createSessionPrompt();
                 }
@@ -167,7 +166,8 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         };
 
 ////////ON LOAD FUNCTIONS 
-            HomeAnimationFactory.endAnimate()
+            LsystemFactory.endAnimate();
+            HomeAnimationFactory.endAnimate();
             LsystemFactory.resetCanvasOnLoad();
             initColor();
             loadTrainingSessions();
