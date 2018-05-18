@@ -28,8 +28,7 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
             $scope.percentage= present/100;
               $timeout(()=>{
               if (+imageRoll.like*100 > +chanceOfLike){
-                // LsystemFactory.drawResult();
-                LsystemFactory.animateResult();
+                LsystemFactory.animateIt();
                 
                 $scope.message="";
                 
@@ -37,7 +36,7 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
                   resetItAll(); 
                   counter+=1;
                   LsystemFactory.endAnimate();
-                $scope.message=`Im trying to find your image, this is search ${counter}`;
+                    $scope.message=`Im trying to find your image, this is search ${counter}`;
               }
           },100);   
         };
@@ -56,6 +55,13 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
         $scope.testButton = ()=>{
             resetItAll();
         };
+
+        $scope.imageButton = ()=>{
+            LsystemFactory.endAnimate();
+            $timeout(()=>{
+                LsystemFactory.drawResult();
+            },400);   
+        }
 
 ////////IMAGE CONTROLS
 

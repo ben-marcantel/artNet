@@ -17,7 +17,7 @@
 
         </li>
         <li>
-            <div class="trainListItem" ng-click="testButton()">Test Reset</div>
+            <div class="trainListItem" ng-click="testButton()">Session Reset</div>
         </li>
         <li>
         <div>
@@ -27,7 +27,8 @@
     </ul>
 
     <div class= "controls">    
-        zoom<input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
+            
+        <div class="trainListItem" ng-click="imageButton()">Show me an image</div>        
         choose color<input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor">
     </div> 
     <div class="percent">Your likely to be a match percent is {{percentage}}</div>
