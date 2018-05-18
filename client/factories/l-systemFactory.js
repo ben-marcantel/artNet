@@ -422,7 +422,6 @@ const animateLsystem = ()=>{
 
 const growth = (data)=>{
     if (data < 180){
-        console.log(data);
        return counter += 1/10;
     } else if (data >= 180){
          counter = 0;   
@@ -435,9 +434,12 @@ const scene = ()=>{
 
 const animateIt = ()=>{ 
     growth(counter);
-    canvas.height=1000;
-    canvas.width=1000;
+    canvas.height = 1000;
+    canvas.width = 1000;
+    ctx.translate(canvas.width / 2, canvas.height / 4);    
     animateLsystem();
+    koch.iterate(5);
+    koch.final();
     time = $timeout(()=>{
                 scene();        
             },80);
@@ -448,14 +450,7 @@ const endAnimate= ()=>{
     $timeout.cancel(time);
 };
 
-const animateResult = ()=>{
-    canvas.height = 1000;
-    canvas.width = 1000;
-    ctx.translate(canvas.width / 2, canvas.height / 4);
-    animateIt();
-    koch.iterate(5);
-    koch.final();
-};
-    return{ onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue, drawResult,setInitValues, defineObjectToTest, resetObject,resetCanvasOnLoad,animateResult,endAnimate };
+
+    return{ onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue, drawResult,setInitValues, defineObjectToTest, resetObject,resetCanvasOnLoad,animateIt,endAnimate };
 
 });
