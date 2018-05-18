@@ -22,7 +22,7 @@
             <div>Your current session is {{sessionName}} </div>
             <div class="trainListItem" ng-click="deleteSet()"> Delete</div>
             <div class="trainListItem" ng-click="exitTraining()">  Exit  </div>
-            <div class="trainListItem" ng-click="goToResults()">Go To My Results</div>
+            <div class="trainListItem" ng-click="goToResults()">Go To My Results for {{yes}} yes's and {{no}} no's</div>
         </li>
         <li>
             <div>
@@ -32,12 +32,12 @@
                             <div class="trainListItem" id ={{set.id}} ng-click="setCurrentId(set)">{{set.name}}</div>
                         </li>
                     </ul>
-                </div>   
+            </div>   
         </li>
     </ul>
            <!-- //image control -->
     <div class= "controls">
-            zoom   <input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
+            zoom      <input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
             choose color  <input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor"> </li>
     </div> 
 </form>
@@ -45,12 +45,10 @@
 
 <div class="controls">
     <ul></ul>
-    <div>For each image please select the choice that matches your category</div>
     <button class="formBtn"ng-click="dislike()">this doesnt fit my category</button>
     <button class="formBtn"ng-click="like()">this fits my category</button>
     <button class="formBtn"ng-click="reset()">neither show me a different one</button>
 </div>
-
   <!-- <canvas id = "canvasTrain" width="1000" height="1000"></canvas> -->
   
 

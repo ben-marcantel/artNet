@@ -47,7 +47,6 @@ body {
     }
   }
 
-
 ////TRAIN ITEMS
 .trainList{
     list-style: none;
@@ -65,10 +64,8 @@ body {
     color: rgb(255, 0, 242);
     background-color: transparent;
     text-align: center;
-
-    
-
 }
+
 ////BUTTONS
 .formBtn{
     border: 2px solid  aqua;
@@ -91,6 +88,7 @@ body {
 .seshName li{
     list-style: none;
 }
+
 ////INPUT
 input[type=text] {
     border: 2px solid  aqua;
@@ -189,4 +187,31 @@ input:hover::-webkit-input-placeholder {
   height: .9em;
   // background:  rgb(255, 0, 242);
   cursor: pointer;
+}
+
+.loadMessage{
+  justify-content: center;
+  text-align:center;
+}
+.loadMessage{
+  animation-timing-function: linear;
+  animation-duration: 10s;
+  animation-name: color;
+  animation-iteration-count: infinite;
+}
+
+@keyframes color {
+  from {
+    color:rgb(255, 0, 242)
+  }
+
+  to {
+    color:black;
+
+  }
+}
+
+.percent{
+  justify-content: center;
+  text-align:center;
 }

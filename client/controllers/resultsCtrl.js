@@ -1,41 +1,42 @@
 "use strict";
 
-angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFactory, NeuralNetFactory, LsystemFactory,$location){
-        let chanceOfLike;
-        let testObjData;
-
-        $scope.reset= ()=>{
-          let zoomAmt= 0;
-          $scope.zoomAmt = 0;
-          LsystemFactory.resetImage();    
-          LsystemFactory.zoomImage(zoomAmt);
-        }; 
+angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFactory, NeuralNetFactory, LsystemFactory,$location, $timeout){
+      let chanceOfLike;
+      let testObjData;
+      let imageRoll
+      let counter=0;
+      
 
       const resetItAll = ()=>{
-            
             NeuralNetFactory.resetArrayLength();
             LsystemFactory.resetObject();
             LsystemFactory.setInitValues();
             LsystemFactory.defineObjectToTest();
             testObjData = LsystemFactory.sendTrainObject();
+            // $timeout(()=>{
             showIt();
+          // },100); 
       };
 
+      $scope.filter = (amt)=>{
+        chanceOfLike = amt;
+        $scope.amount = amt;
+    };
 
-
-        let showIt = ()=> {
-          console.log("im here!");
-          chanceOfLike = NeuralNetFactory.fate(testObjData);
-          $scope.percentage=chanceOfLike.like*100;
-          // if (chanceOfLike.like>1/10){
-
-            LsystemFactory.drawResult();
-
-          // } else if (chanceOfLike<1/20){
-          //   console.log("broke it");
-            // resetItAll();
-          // }
-          
+      let showIt = ()=> {
+        let present;
+            imageRoll = NeuralNetFactory.fate(testObjData);
+            present = Math.floor(imageRoll.like*10000)
+            $scope.percentage= present/100;
+              $timeout(()=>{
+              if (+imageRoll.like*100 > +chanceOfLike){
+                LsystemFactory.drawResult();
+              } else if(+imageRoll.like*100 < +chanceOfLike){                 
+                  resetItAll(); 
+                  counter+=1;
+                $scope.message=`Im trying to find your image, this is search ${counter}`
+              }
+          },100);   
         };
 
         const testData = ()=>{ 
@@ -44,17 +45,14 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
             testObjData = LsystemFactory.sendTrainObject();
         };
        
-
         const getData = ()=>{
             testData();
             showIt();  
         };
 
         $scope.testButton = ()=>{
-          resetItAll();
+            resetItAll();
         };
-
-       
 
 ////////IMAGE CONTROLS
 
@@ -75,9 +73,14 @@ angular.module("ArtNet").controller("ResultsCtrl", function($scope, $q, AuthFact
             LsystemFactory.getColorValue(colorValue,zoomAmt);
         };
  
-
+        $scope.reset= ()=>{
+          let zoomAmt= 0;
+          $scope.zoomAmt = 0;
+          LsystemFactory.resetImage();    
+          LsystemFactory.zoomImage(zoomAmt);
+        }; 
         $scope.toTrainPage =()=>{
-           $location.url(`/train`); 
+            $location.url(`/train`); 
         };
 
         LsystemFactory.resetCanvasOnLoad();
