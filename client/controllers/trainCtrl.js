@@ -143,10 +143,18 @@ angular.module("ArtNet").controller("TrainCtrl", function($scope, $route, AuthFa
         };
 
         $scope.exitTraining = ()=>{
-            // $scope.setCurrentId(null);
             $route.reload("/train");
         };
-   
+
+        $scope.home= ()=>{
+            AuthFactory.logOutUser($scope.account)
+        .then((user)=>{
+            AuthFactory.broadcastUserLogin(user);
+            //route to redirect to.
+            $location.path("/");
+        });
+        };
+
         $scope.saveNewSession=()=>{
             name =  $scope.trainName;
             if(!name){
