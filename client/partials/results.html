@@ -5,7 +5,9 @@
         <div>Your current training set has {{length}} votes</div>
         </li>
         <li>
-        <div>Your like match percent is {{percentage}}%</div>
+            <div>
+                adjust filter amount% <input class="slider" type= "range"  id ="zoom" ng-model= "filterAmt" ng-change= "filter(filterAmt)" min= "0"  max= "99">
+            </div>
         </li>
     </ul>
 </div>
@@ -17,12 +19,20 @@
         <li>
             <div class="trainListItem" ng-click="testButton()">Test Reset</div>
         </li>
+        <li>
+        <div>
+                {{amount}}% filter threshold
+        </div>
+        </li>
     </ul>
-<div class= "controls">
-        <input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">zoom
-        <input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor">choose color 
+
+    <div class= "controls">    
+        zoom<input class="slider" type= "range"  id ="zoom" ng-model= "zoomAmt" ng-change= "zoom(zoomAmt)" min= "-2"  max= "2">
+        choose color<input type="color" value="#00FFFF" ng-model= "colorAmt" ng-change= "colorSet(colorAmt)" id="inputColor">
     </div> 
-<!-- <canvas id = "canvasTrain1" width="1000" height="1000"></canvas> -->
+    <div class="percent">Your likely to be a match percent is {{percentage}}</div>
+    <div class="loadMessage">{{message}}</div>
+    
 
 
 

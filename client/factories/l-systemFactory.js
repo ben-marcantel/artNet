@@ -196,26 +196,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         return production2String;
     };
     
-    const  getRgb = (hex)=> {
-        const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
-      
-        result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        console.log(result);
-            rColorValue = result[1];
-            gColorValue =result[2];
-            bColorValue = result[3];
-            console.log(rColorValue,gColorValue,bColorValue);
-        return result ? {
-            r: Math.round(parseInt(result[1], 16) / 2.55) / 100,
-            g: Math.round(parseInt(result[2], 16) / 2.55) / 100,
-            b: Math.round(parseInt(result[3], 16) / 2.55) / 100, 
-        } : null;
-    };
-    
-    
     const setDrawLogic = ()=>{
             if (drawInitNum=== 1){
                 ctx.beginPath();
@@ -268,7 +248,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         
     };
     
-    
     // L-SYSTEM 
     ctx.translate(canvas.width / 2, canvas.height / 4);
     const initLsystem = ()=>{
@@ -292,9 +271,9 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
             productionTwoValue: production2Value,
             leftValue: leftValue,
             rightValue: rightValue,
-            iterationValue: iterationValue,
+            iterationValue: 5,
             dividendValue: dividendValue,
-            moveXValue: null,
+            moveXValue: moveXValue,
             moveYValue: moveYValue,
             drawLogicValue: drawLogicValue,
             setSaveLogicValue: setSaveLogicValue,
@@ -328,7 +307,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         koch.iterate(5); 
         koch.final();   
     };
-
 
     const zoomImage=(zoom)=>{
         if (zoom === 2){
@@ -376,7 +354,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         canvas.height = 1000;
         canvas.width = 1000;
         rgb = color;
-        console.log(hexToRgb(rgb));
         zoomImage(zoom);          
     };
  
@@ -386,51 +363,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         koch.iterate(5);
         koch.final();
     };
-    
-    const hexToRgb =(hex)=> {
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    };
-
-    // toHSL: 
-    // let toHSL= (hex)=> {
-    //     let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    
-    //     let r = parseInt(result[1], 16);
-    //     let g = parseInt(result[2], 16);
-    //     let b = parseInt(result[3], 16);
-    
-    //     r /= 255, g /= 255, b /= 255;
-    //     let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    //     let h, s, l = (max + min) / 2;
-    
-    //     if(max == min){
-    //         h = s = 0; // achromatic
-    //     } else {
-    //         let d = max - min;
-    //         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    //         switch(max) {
-    //             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-    //             case g: h = (b - r) / d + 2; break;
-    //             case b: h = (r - g) / d + 4; break;
-    //         }
-    //         h /= 6;
-    //     }
-    
-    //     s = s*100;
-    //     s = Math.round(s);
-    //     l = l*100;
-    //     l = Math.round(l);
-    //     h = Math.round(360*h);
-    
-    //     let colorInHSL = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
-    // };
-
-
 
     const dislike = ()=>{
         defineInputObject(); 
@@ -444,7 +376,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         resetImage();
    };
     
-
 //to neural net
     const sendTrainObject = ()=>{
         return trainObject;
@@ -454,8 +385,6 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         defineInputObject();
         trainObject = {inputObject};
     };
-
-  
 
     const drawResult = ()=>{
         canvas.height = 1000;
@@ -472,6 +401,30 @@ angular.module("ArtNet").factory("LsystemFactory", function($window, $document, 
         ctx.translate(canvas.width / 2, canvas.height / 4);
     };
 
+    const scene = ()=>{
+        animate();
+    };
+
+    let time;
+    
+    const animate = ()=>{ 
+        growth(counter);
+        canvas.height=1000;
+        canvas.width=1000;
+        randomNum();
+        treeMaker();
+        time = 
+            $timeout(()=>{
+                scene();        
+            },80);
+        
+    };
+
+    const endAnimate= ()=>{
+     $timeout.cancel(time);
+    }
+
+	return {animate,endAnimate};
     return{ onLoadImage, resetImage, dislike, like, sendTrainObject, zoomImage, getColorValue, drawResult,setInitValues, defineObjectToTest, resetObject,resetCanvasOnLoad };
 
 });

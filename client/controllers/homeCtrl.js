@@ -7,7 +7,6 @@ angular.module("ArtNet").controller("HomeCtrl", function($scope, AuthFactory, $l
     
         $scope.$on("handleBroadcast", function(event, user) {
           currentUserId = user.id;
-          console.log("Current user", currentUserId);
         });
         
     
