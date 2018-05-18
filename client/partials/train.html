@@ -10,10 +10,10 @@
         <li>
             <ul class= "seshName">
                 <li> 
-                    <input type= "text"  ng-model="trainName" placeholder = "Enter Session Name">
+                    <input type= "text"  ng-model="trainName" placeholder = "Cat Name Here">
                 </li>
                 <li>
-                    <button class="formBtn"ng-click="saveNewSession()">save session</button>
+                    <button class="formBtn"ng-click="saveNewSession()">save category</button>
                 </li>    
             </ul>
                
@@ -26,7 +26,7 @@
         </li>
         <li>
             <div>
-                <div ng-click="load()" class="parameterHeader"> Training Sets</div>
+                <div ng-click="load()" class="parameterHeader"> Category Sets</div>
                     <ul class= "setCollection">
                         <li class="setName"ng-repeat= "set in sets">
                             <div class="trainListItem" id ={{set.id}} ng-click="setCurrentId(set)">{{set.name}}</div>
@@ -49,7 +49,6 @@
     <button class="formBtn"ng-click="like()">this fits my category</button>
     <button class="formBtn"ng-click="reset()">neither show me a different one</button>
 </div>
-  <!-- <canvas id = "canvasTrain" width="1000" height="1000"></canvas> -->
   
 
 
